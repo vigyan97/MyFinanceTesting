@@ -102,8 +102,13 @@ namespace MyFinance.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByName(string name)
         {
+            if (!IsValidName(name))
+            {
+                return BadRequest("Invalid name. Please enter a valid name with 2-50 alphabetic characters.");
+            }
+
             var members = await _memberRepositoryService.GetMembersByNameAsync(name);
-            if (members == null)
+            if (members == null || !members.Any())
             {
                 return NotFound();
             }
@@ -311,6 +316,21 @@ namespace MyFinance.Controllers
         {
             // Must be 10 digits, start with 6-9
             return Regex.IsMatch(number ?? "", @"^[6-9]\d{9}$");
+        }
+
+        /// <summary>
+        /// Checks valid name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if the name is valid</returns>
+        private bool IsValidName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            // Allow letters, spaces, dots, hyphens (adjust based on your naming policy)
+            string pattern = @"^[a-zA-Z\s\.\-]{2,50}$";
+            return Regex.IsMatch(name, pattern);
         }
 
 
