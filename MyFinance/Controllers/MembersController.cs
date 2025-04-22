@@ -118,17 +118,17 @@ namespace MyFinance.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetByMobileNumber(string mobileNumber)
         {
-            if(mobileNumber==null || mobileNumber.Length<10)
+            if (!IsValidMobileNumber(mobileNumber))
             {
-                return BadRequest("Mobile number should have exactly 10 digits");
+                return BadRequest("Invalid mobile number. It must be 10 digits and start with 6, 7, 8, or 9.");
             }
+
             var member = await _memberRepositoryService.GetMemberbyMobileNumber(mobileNumber);
             if (member == null)
             {
                 return NotFound();
             }
 
-            //var memberDto = _mapper.Map<MemberDto>(member);
             return Ok(member);
         }
 
@@ -275,8 +275,9 @@ namespace MyFinance.Controllers
         {6,5,9,8,7,1,0,4,3,2},
         {7,6,5,9,8,2,1,0,4,3},
         {8,7,6,5,9,3,2,1,0,4},
-        {9,8,7,6,5,4,3,2,1,0}
-    };
+        {9,8,7,6,5,4,3,2,1,0} 
+            
+        };
 
             int[,] p = new int[,] {
         {0,1,2,3,4,5,6,7,8,9},
@@ -287,7 +288,7 @@ namespace MyFinance.Controllers
         {4,2,8,6,5,7,3,9,0,1},
         {2,7,9,3,8,0,6,4,1,5},
         {7,0,4,6,9,1,3,2,5,8}
-    };
+        };
 
             int[] inv = new int[] { 0, 4, 3, 2, 1, 5, 6, 7, 8, 9 };
 
@@ -300,6 +301,16 @@ namespace MyFinance.Controllers
             }
 
             return c == 0;
+        }
+        /// <summary>
+        /// checks valid mobile number
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns>True if mobile number is valid</returns>
+        private bool IsValidMobileNumber(string number)
+        {
+            // Must be 10 digits, start with 6-9
+            return Regex.IsMatch(number ?? "", @"^[6-9]\d{9}$");
         }
 
 
