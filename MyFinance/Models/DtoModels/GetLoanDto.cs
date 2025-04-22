@@ -1,0 +1,33 @@
+﻿
+namespace MyFinance.Models.DtoModels
+{
+    public class GetLoanDto
+    {
+        public int LoanId { get; set; }
+        public int MemberId { get; set; }
+        public required string MemberName { get; set; }
+        public required string MobileNumber { get; set; }
+        public string? PANNumber { get; set; }
+        public required string LoanType { get; set; }
+        public required string PurposeOfLoan { get; set; }
+        public int NoOfFamilyNumbers { get; set; }
+        public double FamilyIncome { get; set; }
+        public double FamilyExpenditure { get; set; }
+        public double Obligation { get; set; }
+        public double Surplus { get; set; }
+        public double LoanAmount { get; set; }
+        public int Tenure { get; set; }
+        public float RateOfInterest { get; set; }
+        public int ProcessingChargePercentage { get; set; }
+        public double NetAmount { get; set; }
+        public bool IsApproved { get; set; }
+        public string? ApprovedBy { get; set; }
+        public DateTime ApprovedOn { get; set; }
+        public bool IsDisbursed { get; set; }
+        public string? DisbursedBy { get; set; }
+        public bool IsRejected { get; set; }
+        public DateTime DisbursedOn { get; set; }
+        public string? DisbursedVia { get; set; }
+        public required bool IsClosed { get; set; }
+    }
+}
